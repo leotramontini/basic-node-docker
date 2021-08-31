@@ -6,7 +6,7 @@ services:
     volumes:
       - .:/usr/app/
       - ./node_modules:/usr/app/node_modules
-    container_name: product_server
+    container_name: server
     ports:
       - '3000:3000'
     command: npm start
