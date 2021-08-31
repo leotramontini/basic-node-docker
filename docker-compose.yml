@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  server:
+    build: .
+    volumes:
+      - .:/usr/app/
+      - ./node_modules:/usr/app/node_modules
+    container_name: product_server
+    ports:
+      - '3000:3000'
+    command: npm start
+    environment:
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: products
+    networks:
+      - container-networks
+    links:
+      - db
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    restart: always
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: products
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+networks:
+  container-networks:
+    driver: bridge
